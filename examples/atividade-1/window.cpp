@@ -1,4 +1,5 @@
 #include "window.hpp"
+#include <misc/cpp/imgui_stdlib.h>
 
 void Window::onCreate() {
   auto const &windowSettings{getWindowSettings()};
@@ -38,6 +39,23 @@ void Window::onPaintUI() {
     // More static text
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                 1000.0 / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    std::string nome;
+
+    // Input text: nome do usuário
+    ImGui::InputText("Nome", &nome);
+
+    // 100x50 button
+    if (ImGui::Button("Enviar!", ImVec2(100, 50))) {
+      fmt::print("Dados enviados com sucesso.\n");
+    }
+
+    // Nx50 button, where N is the remaining width available
+    ImGui::Button("Press me!", ImVec2(-1, 50));
+    // See also IsItemHovered, IsItemActive, etc
+    if (ImGui::IsItemClicked()) {
+      fmt::print("2nd Button pressed.\n");
+    }
 
     // Window end
     ImGui::End();
