@@ -1,5 +1,4 @@
 #include "window.hpp"
-#include <misc/cpp/imgui_stdlib.h>
 
 void Window::onCreate() {
   auto const &windowSettings{getWindowSettings()};
@@ -24,37 +23,64 @@ void Window::onPaintUI() {
     // Window begin
     ImGui::Begin("Formulário");
 
+    ImGui::PushItemWidth(ImGui::GetFontSize() * -12);
+
     // Static text
-    auto const &windowSettings{getWindowSettings()};
-    ImGui::Text("Current window size: %dx%d (in windowed mode)",
-                windowSettings.width, windowSettings.height);
+    ImGui::TextWrapped(
+        "Esse formulário tem como objetivo realizar o cadastro de "
+        "novos clientes. Todas as informações deverão ser preenchidas "
+        "para prosseguir com o envio.\n");
 
-    // Slider from 0.0f to 1.0f
-    static float f{};
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+    // Input text
+    static char name[32] = "";
+    ImGui::Text("\nNome:");
+    ImGui::InputText("##edit", name, IM_ARRAYSIZE(name));
 
-    // ColorEdit to change the clear color
-    ImGui::ColorEdit3("clear color", m_clearColor.data());
+    // InputTextWithHint
+    static char str1[128] = "";
+    ImGui::Text("\nCPF (XXX.XXX.XX-XX):");
+    ImGui::InputTextWithHint("", "XXX.XXX.XXX-XX", str1, IM_ARRAYSIZE(str1));
 
-    // More static text
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                1000.0 / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    // Combo box
+    const char *item_names[] = {"Feminino", "Masculino",
+                                "Prefiro não informar"};
+    static int item_type = 1;
+    ImGui::Text("\nGênero:");
+    ImGui::Combo("", &item_type, item_names, IM_ARRAYSIZE(item_names),
+                 IM_ARRAYSIZE(item_names));
 
-    std::string nome;
+    // InputInt3
+    static int nascimento[3] = {1, 1, 1};
+    ImGui::Text("\nNascimento:");
+    ImGui::InputInt3("", nascimento);
 
-    // Input text: nome do usuário
-    ImGui::InputText("Nome", &nome);
-
-    // 100x50 button
-    if (ImGui::Button("Enviar!", ImVec2(100, 50))) {
-      fmt::print("Dados enviados com sucesso.\n");
+    static bool enabled{true};
+    // Table
+    if (ImGui::BeginTable("split", 3)) {
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No titlebar", &enabled);
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No scrollbar", &enabled);
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No menu", &enabled);
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No move", &enabled);
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No resize", &enabled);
+      ImGui::TableNextColumn();
+      ImGui::Checkbox("No collapse", &enabled);
+      ImGui::EndTable();
     }
 
-    // Nx50 button, where N is the remaining width available
-    ImGui::Button("Press me!", ImVec2(-1, 50));
-    // See also IsItemHovered, IsItemActive, etc
-    if (ImGui::IsItemClicked()) {
-      fmt::print("2nd Button pressed.\n");
+    // Button
+    ImGui::Spacing();
+    if (ImGui::Button("Enviar!", ImVec2(-1, 50))) {
+      m_showAnotherWindow = true;
+      ImGui::Begin("Another window", &m_showAnotherWindow);
+      ImGui::Text("Hello from another window!");
+      if (ImGui::Button("Close Me"))
+        m_showAnotherWindow = false;
+      ImGui::End();
     }
 
     // Window end
