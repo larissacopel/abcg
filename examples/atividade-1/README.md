@@ -22,7 +22,7 @@ abcg
 │       │   README.md
 │       │   window.cpp
 │       │   window.hpp
-|       └───build
+|       └───code
 │       │   │   atividade-1.html
 │       │   │   atvidade-1.js
 │       │   │   atividade-1.wasm
@@ -30,7 +30,7 @@ abcg
 
 A atividade foi desenvolvida na pasta examples/atividade-1, no repositório abdg (forkeado).
 
-Dentro da pasta da atividade, há primeiro os arquivos utilizados para o desenvolvimento e documentação da aplicação. Além disso, na pasta build, encontram-se os arquivos compilados para a criação da página web, dispnonível em https://larissacopel.github.io/abcg/examples/atividade-1/build/.
+Dentro da pasta da atividade, há primeiro os arquivos utilizados para o desenvolvimento e documentação da aplicação. Além disso, na pasta code, encontram-se os arquivos compilados para a criação da página web, dispnonível em https://larissacopel.github.io/abcg/examples/atividade-1/code/.
 
 
 ---
@@ -62,4 +62,4 @@ Dentre os elementos ImGui utilizados, tem-se:
 
 ## Deployment
 
-Após o desenvolvimento, realizei a compilação dos arquivos conforme orientado e com a geração dos arquivos javascript e wasm, centralizei-os na pasta examples/atividade-1/build. Além disso, realizei a configuração de um GitHub Page em meu repositório e com os workflows já existentes, o deploy foi realizado de forma automática.
+Após o desenvolvimento, realizei a compilação dos arquivos conforme orientado e com a geração dos arquivos javascript e wasm, centralizei-os na pasta examples/atividade-1/code. Além disso, realizei a configuração de um GitHub Page em meu repositório e com os workflows já existentes, o deploy foi realizado de forma automática.
