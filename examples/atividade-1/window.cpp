@@ -53,31 +53,16 @@ void Window::onPaintUI() {
     static int nascimento[3] = {1, 1, 1};
     ImGui::Text("\nNascimento:");
     ImGui::InputInt3("", nascimento);
-
-    static bool enabled{true};
-    // Table
-    if (ImGui::BeginTable("split", 3)) {
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No titlebar", &enabled);
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No scrollbar", &enabled);
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No menu", &enabled);
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No move", &enabled);
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No resize", &enabled);
-      ImGui::TableNextColumn();
-      ImGui::Checkbox("No collapse", &enabled);
-      ImGui::EndTable();
-    }
-
     // Button
     ImGui::Spacing();
     if (ImGui::Button("Enviar!", ImVec2(-1, 50))) {
       m_showAnotherWindow = true;
-      ImGui::Begin("Another window", &m_showAnotherWindow);
-      ImGui::Text("Hello from another window!");
+    }
+
+    if (m_showAnotherWindow == true) {
+      ImGui::Begin("Envio", &m_showAnotherWindow);
+      ImGui::Text("Enviando...");
+
       if (ImGui::Button("Close Me"))
         m_showAnotherWindow = false;
       ImGui::End();
