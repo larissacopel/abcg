@@ -5,9 +5,7 @@
 
 #include "abcgOpenGL.hpp"
 
-#include "bullets.hpp"
 #include "base.hpp"
-#include "starlayers.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -27,9 +25,7 @@ private:
 
   GameData m_gameData;
 
-  Bullets m_bullets;
   Base m_base;
-  StarLayers m_starLayers;
 
   abcg::Timer m_restartWaitTimer;
 

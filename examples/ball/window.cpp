@@ -72,9 +72,7 @@ void Window::restart() {
 
   m_gameData.m_state = State::Playing;
 
-  m_starLayers.create(m_starsProgram, 25);
   m_base.create(m_objectsProgram, mousePosition, m_viewportSize);
-  m_bullets.create(m_objectsProgram);
 }
 
 void Window::onUpdate() {
@@ -88,8 +86,6 @@ void Window::onUpdate() {
   }
 
   m_base.update(m_gameData, deltaTime);
-  m_starLayers.update(m_base, deltaTime);
-  m_bullets.update(m_base, m_gameData, deltaTime);
 
 }
 
@@ -97,8 +93,6 @@ void Window::onPaint() {
   abcg::glClear(GL_COLOR_BUFFER_BIT);
   abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
-  m_starLayers.paint();
-  m_bullets.paint();
   m_base.paint(m_gameData);
 }
 
@@ -138,7 +132,5 @@ void Window::onDestroy() {
   abcg::glDeleteProgram(m_starsProgram);
   abcg::glDeleteProgram(m_objectsProgram);
 
-  m_bullets.destroy();
   m_base.destroy();
-  m_starLayers.destroy();
 }
