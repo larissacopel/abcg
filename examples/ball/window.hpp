@@ -5,7 +5,6 @@
 
 #include "abcgOpenGL.hpp"
 
-#include "asteroids.hpp"
 #include "bullets.hpp"
 #include "base.hpp"
 #include "starlayers.hpp"
@@ -28,7 +27,6 @@ private:
 
   GameData m_gameData;
 
-  Asteroids m_asteroids;
   Bullets m_bullets;
   Base m_base;
   StarLayers m_starLayers;

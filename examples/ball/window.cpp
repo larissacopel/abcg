@@ -74,7 +74,6 @@ void Window::restart() {
 
   m_starLayers.create(m_starsProgram, 25);
   m_base.create(m_objectsProgram, mousePosition, m_viewportSize);
-  m_asteroids.create(m_objectsProgram, 3);
   m_bullets.create(m_objectsProgram);
 }
 
@@ -90,13 +89,8 @@ void Window::onUpdate() {
 
   m_base.update(m_gameData, deltaTime);
   m_starLayers.update(m_base, deltaTime);
-  m_asteroids.update(m_base, deltaTime);
   m_bullets.update(m_base, m_gameData, deltaTime);
 
-  if (m_gameData.m_state == State::Playing) {
-    checkCollisions();
-    checkWinCondition();
-  }
 }
 
 void Window::onPaint() {
@@ -104,7 +98,6 @@ void Window::onPaint() {
   abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
   m_starLayers.paint();
-  m_asteroids.paint();
   m_bullets.paint();
   m_base.paint(m_gameData);
 }
@@ -145,67 +138,7 @@ void Window::onDestroy() {
   abcg::glDeleteProgram(m_starsProgram);
   abcg::glDeleteProgram(m_objectsProgram);
 
-  m_asteroids.destroy();
   m_bullets.destroy();
   m_base.destroy();
   m_starLayers.destroy();
-}
-
-void Window::checkCollisions() {
-  // Check collision between ship and asteroids
-  for (auto const &asteroid : m_asteroids.m_asteroids) {
-    auto const asteroidTranslation{asteroid.m_translation};
-    auto const distance{
-        glm::distance(m_base.m_translation, asteroidTranslation)};
-
-    if (distance < m_base.m_scale * 0.9f + asteroid.m_scale * 0.85f) {
-      m_gameData.m_state = State::GameOver;
-      m_restartWaitTimer.restart();
-    }
-  }
-
-  // Check collision between bullets and asteroids
-  for (auto &bullet : m_bullets.m_bullets) {
-    if (bullet.m_dead)
-      continue;
-
-    for (auto &asteroid : m_asteroids.m_asteroids) {
-      for (auto const i : {-2, 0, 2}) {
-        for (auto const j : {-2, 0, 2}) {
-          auto const asteroidTranslation{asteroid.m_translation +
-                                         glm::vec2(i, j)};
-          auto const distance{
-              glm::distance(bullet.m_translation, asteroidTranslation)};
-
-          if (distance < m_bullets.m_scale + asteroid.m_scale * 0.85f) {
-            asteroid.m_hit = true;
-            bullet.m_dead = true;
-          }
-        }
-      }
-    }
-
-    // Break asteroids marked as hit
-    for (auto const &asteroid : m_asteroids.m_asteroids) {
-      if (asteroid.m_hit && asteroid.m_scale > 0.10f) {
-        std::uniform_real_distribution randomDist{-1.0f, 1.0f};
-        std::generate_n(std::back_inserter(m_asteroids.m_asteroids), 3, [&]() {
-          glm::vec2 const offset{randomDist(m_randomEngine),
-                                 randomDist(m_randomEngine)};
-          auto const newScale{asteroid.m_scale * 0.5f};
-          return m_asteroids.makeAsteroid(
-              asteroid.m_translation + offset * newScale, newScale);
-        });
-      }
-    }
-
-    m_asteroids.m_asteroids.remove_if([](auto const &a) { return a.m_hit; });
-  }
-}
-
-void Window::checkWinCondition() {
-  if (m_asteroids.m_asteroids.empty()) {
-    m_gameData.m_state = State::Win;
-    m_restartWaitTimer.restart();
-  }
 }
