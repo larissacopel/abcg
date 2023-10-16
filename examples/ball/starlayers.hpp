@@ -7,14 +7,14 @@
 #include "abcgOpenGL.hpp"
 
 #include "gamedata.hpp"
-#include "ship.hpp"
+#include "base.hpp"
 
 class StarLayers {
 public:
   void create(GLuint program, int quantity);
   void paint();
   void destroy();
-  void update(const Ship &ship, float deltaTime);
+  void update(const Base &base, float deltaTime);
 
 private:
   GLuint m_program{};

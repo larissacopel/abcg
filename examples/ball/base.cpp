@@ -1,9 +1,9 @@
-#include "ship.hpp"
+#include "base.hpp"
 
 #include <glm/gtx/fast_trigonometry.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-void Ship::create(GLuint program) {
+void Base::create(GLuint program) {
   destroy();
 
   m_program = program;
@@ -14,7 +14,7 @@ void Ship::create(GLuint program) {
   m_scaleLoc = abcg::glGetUniformLocation(m_program, "scale");
   m_translationLoc = abcg::glGetUniformLocation(m_program, "translation");
 
-  // Reset ship attributes
+  // Reset base attributes
   m_rotation = 0.0f;
   m_translation = glm::vec2(0);
   m_velocity = glm::vec2(0);
@@ -70,7 +70,7 @@ void Ship::create(GLuint program) {
   abcg::glBindVertexArray(0);
 }
 
-void Ship::paint(const GameData &gameData) {
+void Base::paint(const GameData &gameData) {
   if (gameData.m_state != State::Playing)
     return;
 
@@ -109,13 +109,13 @@ void Ship::paint(const GameData &gameData) {
   abcg::glUseProgram(0);
 }
 
-void Ship::destroy() {
+void Base::destroy() {
   abcg::glDeleteBuffers(1, &m_VBO);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Ship::update(GameData const &gameData, float deltaTime) {
+void Base::update(GameData const &gameData, float deltaTime) {
   // Rotate
   if (gameData.m_input[gsl::narrow<size_t>(Input::Left)])
     m_rotation = glm::wrapAngle(m_rotation + 4.0f * deltaTime);

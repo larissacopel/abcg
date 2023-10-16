@@ -7,7 +7,7 @@
 
 #include "asteroids.hpp"
 #include "bullets.hpp"
-#include "ship.hpp"
+#include "base.hpp"
 #include "starlayers.hpp"
 
 class Window : public abcg::OpenGLWindow {
@@ -30,7 +30,7 @@ private:
 
   Asteroids m_asteroids;
   Bullets m_bullets;
-  Ship m_ship;
+  Base m_base;
   StarLayers m_starLayers;
 
   abcg::Timer m_restartWaitTimer;

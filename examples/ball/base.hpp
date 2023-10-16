@@ -1,11 +1,11 @@
-#ifndef SHIP_HPP_
-#define SHIP_HPP_
+#ifndef BASE_HPP_
+#define BASE_HPP_
 
 #include "abcgOpenGL.hpp"
 
 #include "gamedata.hpp"
 
-class Ship {
+class Base {
 public:
   void create(GLuint program);
   void paint(GameData const &gameData);

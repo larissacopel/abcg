@@ -6,7 +6,7 @@
 #include "abcgOpenGL.hpp"
 
 #include "gamedata.hpp"
-#include "ship.hpp"
+#include "base.hpp"
 
 class OpenGLWindow;
 
@@ -15,7 +15,7 @@ public:
   void create(GLuint program);
   void paint();
   void destroy();
-  void update(Ship &ship, const GameData &gameData, float deltaTime);
+  void update(Base &base, const GameData &gameData, float deltaTime);
 
   struct Bullet {
     bool m_dead{};

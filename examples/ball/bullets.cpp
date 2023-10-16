@@ -76,35 +76,35 @@ void Bullets::destroy() {
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Bullets::update(Ship &ship, const GameData &gameData, float deltaTime) {
+void Bullets::update(Base &base, const GameData &gameData, float deltaTime) {
   // Create a pair of bullets
   if (gameData.m_input[gsl::narrow<size_t>(Input::Fire)] &&
       gameData.m_state == State::Playing) {
     // At least 250 ms must have passed since the last bullets
-    if (ship.m_bulletCoolDownTimer.elapsed() > 250.0 / 1000.0) {
-      ship.m_bulletCoolDownTimer.restart();
+    if (base.m_bulletCoolDownTimer.elapsed() > 250.0 / 1000.0) {
+      base.m_bulletCoolDownTimer.restart();
 
       // Bullets are shot in the direction of the ship's forward vector
-      auto const forward{glm::rotate(glm::vec2{0.0f, 1.0f}, ship.m_rotation)};
-      auto const right{glm::rotate(glm::vec2{1.0f, 0.0f}, ship.m_rotation)};
-      auto const cannonOffset{(11.0f / 15.5f) * ship.m_scale};
+      auto const forward{glm::rotate(glm::vec2{0.0f, 1.0f}, base.m_rotation)};
+      auto const right{glm::rotate(glm::vec2{1.0f, 0.0f}, base.m_rotation)};
+      auto const cannonOffset{(11.0f / 15.5f) * base.m_scale};
       auto const bulletSpeed{2.0f};
 
       Bullet bullet{.m_dead = false,
-                    .m_translation = ship.m_translation + right * cannonOffset,
-                    .m_velocity = ship.m_velocity + forward * bulletSpeed};
+                    .m_translation = base.m_translation + right * cannonOffset,
+                    .m_velocity = base.m_velocity + forward * bulletSpeed};
       m_bullets.push_back(bullet);
 
-      bullet.m_translation = ship.m_translation - right * cannonOffset;
+      bullet.m_translation = base.m_translation - right * cannonOffset;
       m_bullets.push_back(bullet);
 
       // Moves ship in the opposite direction
-      ship.m_velocity -= forward * 0.1f;
+      base.m_velocity -= forward * 0.1f;
     }
   }
 
   for (auto &bullet : m_bullets) {
-    bullet.m_translation -= ship.m_velocity * deltaTime;
+    bullet.m_translation -= base.m_velocity * deltaTime;
     bullet.m_translation += bullet.m_velocity * deltaTime;
 
     // Kill bullet if it goes off screen

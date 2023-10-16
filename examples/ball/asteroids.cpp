@@ -23,7 +23,7 @@ void Asteroids::create(GLuint program, int quantity) {
   for (auto &asteroid : m_asteroids) {
     asteroid = makeAsteroid();
 
-    // Make sure the asteroid won't collide with the ship
+    // Make sure the asteroid won't collide with the base
     do {
       asteroid.m_translation = {m_randomDist(m_randomEngine),
                                 m_randomDist(m_randomEngine)};
@@ -63,9 +63,9 @@ void Asteroids::destroy() {
   }
 }
 
-void Asteroids::update(const Ship &ship, float deltaTime) {
+void Asteroids::update(const Base &base, float deltaTime) {
   for (auto &asteroid : m_asteroids) {
-    asteroid.m_translation -= ship.m_velocity * deltaTime;
+    asteroid.m_translation -= base.m_velocity * deltaTime;
     asteroid.m_rotation = glm::wrapAngle(
         asteroid.m_rotation + asteroid.m_angularVelocity * deltaTime);
     asteroid.m_translation += asteroid.m_velocity * deltaTime;

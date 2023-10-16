@@ -25,7 +25,7 @@ void Window::onEvent(SDL_Event const &event) {
     glm::vec2 direction{mousePosition.x - m_viewportSize.x / 2,
                         -(mousePosition.y - m_viewportSize.y / 2)};
 
-    m_ship.m_rotation = std::atan2(direction.y, direction.x) - M_PI_2;
+    // m_base.m_rotation = std::atan2(direction.y, direction.x) - M_PI_2;
   }
 }
 
@@ -70,7 +70,7 @@ void Window::restart() {
   m_gameData.m_state = State::Playing;
 
   m_starLayers.create(m_starsProgram, 25);
-  m_ship.create(m_objectsProgram);
+  m_base.create(m_objectsProgram);
   m_asteroids.create(m_objectsProgram, 3);
   m_bullets.create(m_objectsProgram);
 }
@@ -85,10 +85,10 @@ void Window::onUpdate() {
     return;
   }
 
-  m_ship.update(m_gameData, deltaTime);
-  m_starLayers.update(m_ship, deltaTime);
-  m_asteroids.update(m_ship, deltaTime);
-  m_bullets.update(m_ship, m_gameData, deltaTime);
+  m_base.update(m_gameData, deltaTime);
+  m_starLayers.update(m_base, deltaTime);
+  m_asteroids.update(m_base, deltaTime);
+  m_bullets.update(m_base, m_gameData, deltaTime);
 
   if (m_gameData.m_state == State::Playing) {
     checkCollisions();
@@ -103,7 +103,7 @@ void Window::onPaint() {
   m_starLayers.paint();
   m_asteroids.paint();
   m_bullets.paint();
-  m_ship.paint(m_gameData);
+  m_base.paint(m_gameData);
 }
 
 void Window::onPaintUI() {
@@ -144,7 +144,7 @@ void Window::onDestroy() {
 
   m_asteroids.destroy();
   m_bullets.destroy();
-  m_ship.destroy();
+  m_base.destroy();
   m_starLayers.destroy();
 }
 
@@ -153,9 +153,9 @@ void Window::checkCollisions() {
   for (auto const &asteroid : m_asteroids.m_asteroids) {
     auto const asteroidTranslation{asteroid.m_translation};
     auto const distance{
-        glm::distance(m_ship.m_translation, asteroidTranslation)};
+        glm::distance(m_base.m_translation, asteroidTranslation)};
 
-    if (distance < m_ship.m_scale * 0.9f + asteroid.m_scale * 0.85f) {
+    if (distance < m_base.m_scale * 0.9f + asteroid.m_scale * 0.85f) {
       m_gameData.m_state = State::GameOver;
       m_restartWaitTimer.restart();
     }

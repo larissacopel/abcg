@@ -95,10 +95,10 @@ void StarLayers::destroy() {
   }
 }
 
-void StarLayers::update(const Ship &ship, float deltaTime) {
+void StarLayers::update(const Base &base, float deltaTime) {
   for (auto &&[index, layer] : iter::enumerate(m_starLayers)) {
     auto const layerSpeedScale{1.0f / (index + 2.0f)};
-    layer.m_translation -= ship.m_velocity * deltaTime * layerSpeedScale;
+    layer.m_translation -= base.m_velocity * deltaTime * layerSpeedScale;
 
     // Wrap-around
     if (layer.m_translation.x < -1.0f)
