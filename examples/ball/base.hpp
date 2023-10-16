@@ -7,7 +7,7 @@
 
 class Base {
 public:
-  void create(GLuint program);
+  void create(GLuint program, glm::ivec2 mousePosition, glm::ivec2 m_viewportSize);
   void paint(GameData const &gameData);
   void destroy();
   void update(GameData const &gameData, float deltaTime);

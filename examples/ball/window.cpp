@@ -67,10 +67,13 @@ void Window::onCreate() {
 }
 
 void Window::restart() {
+  glm::ivec2 mousePosition;
+  SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
+
   m_gameData.m_state = State::Playing;
 
   m_starLayers.create(m_starsProgram, 25);
-  m_base.create(m_objectsProgram);
+  m_base.create(m_objectsProgram, mousePosition, m_viewportSize);
   m_asteroids.create(m_objectsProgram, 3);
   m_bullets.create(m_objectsProgram);
 }
