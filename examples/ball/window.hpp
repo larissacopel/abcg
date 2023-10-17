@@ -36,6 +36,7 @@ private:
   std::default_random_engine m_randomEngine;
 
   void restart();
+  void restartBall();
   void checkCollisions();
   void checkWinCondition();
 };

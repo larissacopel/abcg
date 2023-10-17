@@ -24,10 +24,10 @@ void Balls::create(GLuint program, int quantity) {
     ball = makeBall();
 
     // Make sure the asteroid won't collide with the base
-    do {
-      ball.m_translation = {m_randomDist(m_randomEngine),
-                                m_randomDist(m_randomEngine)};
-    } while (glm::length(ball.m_translation) < 0.5f);
+    // do {
+    //   ball.m_translation = {m_randomDist(m_randomEngine),
+    //                             m_randomDist(m_randomEngine)};
+    // } while (glm::length(ball.m_translation) < 0.5f);
   }
 }
 
@@ -105,7 +105,7 @@ Balls::Ball Balls::makeBall(glm::vec2 translation,
 
   // Get a random direction
   glm::vec2 const direction{m_randomDist(re), m_randomDist(re)};
-  ball.m_velocity = glm::normalize(direction) / 7.0f;
+  ball.m_velocity = glm::normalize(direction) / 5.0f;
 
   // Create geometry data
   std::vector<glm::vec2> positions{{0, 0}};

@@ -63,6 +63,7 @@ void Window::onCreate() {
       std::chrono::steady_clock::now().time_since_epoch().count());
 
   restart();
+  restartBall();
 }
 
 void Window::restart() {
@@ -72,6 +73,14 @@ void Window::restart() {
   m_gameData.m_state = State::Playing;
 
   m_base.create(m_objectsProgram, mousePosition, m_viewportSize);
+}
+
+void Window::restartBall() {
+  glm::ivec2 mousePosition;
+  SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
+
+  m_gameData.m_state = State::Playing;
+
   m_balls.create(m_objectsProgram, 1);
 }
 
