@@ -89,8 +89,7 @@ Balls::Ball Balls::makeBall(glm::vec2 translation,
   auto &re{m_randomEngine}; // Shortcut
 
   // Randomly pick the number of sides
-  std::uniform_int_distribution randomSides(50, 60);
-  ball.m_polygonSides = randomSides(re);
+  ball.m_polygonSides = 50;
 
   // Get a random color (actually, a grayscale)
   std::uniform_real_distribution randomIntensity(0.5f, 1.0f);
@@ -111,9 +110,8 @@ Balls::Ball Balls::makeBall(glm::vec2 translation,
   // Create geometry data
   std::vector<glm::vec2> positions{{0, 0}};
   auto const step{M_PI * 2 / ball.m_polygonSides};
-  std::uniform_real_distribution randomRadius(1.0f, 1.0f);
   for (auto const angle : iter::range(0.0, M_PI * 2, step)) {
-    auto const radius{randomRadius(re)};
+    auto const radius{0.3f};
     positions.emplace_back(radius * std::cos(angle), radius * std::sin(angle));
   }
   positions.push_back(positions.at(1));
