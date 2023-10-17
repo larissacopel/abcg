@@ -45,13 +45,6 @@ void Window::onCreate() {
                                  {.source = assetsPath + "objects.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
 
-  // Create program to render the stars
-  m_starsProgram =
-      abcg::createOpenGLProgram({{.source = assetsPath + "stars.vert",
-                                  .stage = abcg::ShaderStage::Vertex},
-                                 {.source = assetsPath + "stars.frag",
-                                  .stage = abcg::ShaderStage::Fragment}});
-
   abcg::glClearColor(0, 0, 0, 1);
 
 #if !defined(__EMSCRIPTEN__)
@@ -140,7 +133,6 @@ void Window::onResize(glm::ivec2 const &size) {
 }
 
 void Window::onDestroy() {
-  abcg::glDeleteProgram(m_starsProgram);
   abcg::glDeleteProgram(m_objectsProgram);
 
   m_balls.destroy();

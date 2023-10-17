@@ -21,7 +21,6 @@ protected:
 private:
   glm::ivec2 m_viewportSize{};
 
-  GLuint m_starsProgram{};
   GLuint m_objectsProgram{};
 
   GameData m_gameData;
