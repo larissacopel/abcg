@@ -93,7 +93,7 @@ Balls::Ball Balls::makeBall(glm::vec2 translation,
 
   // Get a random color (actually, a grayscale)
   std::uniform_real_distribution randomIntensity(0.5f, 1.0f);
-  ball.m_color = glm::vec4(randomIntensity(re));
+  ball.m_color = glm::vec4({0.2f, 0.0f, 1.0f, 1.0f});
 
   ball.m_color.a = 1.0f;
   ball.m_rotation = 0.0f;
