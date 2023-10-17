@@ -6,6 +6,7 @@
 #include "abcgOpenGL.hpp"
 
 #include "base.hpp"
+#include "ball.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -26,6 +27,7 @@ private:
   GameData m_gameData;
 
   Base m_base;
+  Balls m_balls;
 
   abcg::Timer m_restartWaitTimer;
 

@@ -25,7 +25,6 @@ void Window::onEvent(SDL_Event const &event) {
     glm::vec2 direction{mousePosition.x - m_viewportSize.x / 2,
                         -(mousePosition.y - m_viewportSize.y / 2)};
 
-    // m_base.m_rotation = std::atan2(direction.y, direction.x) - M_PI_2;
   }
 }
 
@@ -73,6 +72,7 @@ void Window::restart() {
   m_gameData.m_state = State::Playing;
 
   m_base.create(m_objectsProgram, mousePosition, m_viewportSize);
+  m_balls.create(m_objectsProgram, 1);
 }
 
 void Window::onUpdate() {
@@ -86,6 +86,7 @@ void Window::onUpdate() {
   }
 
   m_base.update(m_gameData, deltaTime);
+  m_balls.update(m_base, deltaTime);
 
 }
 
@@ -94,6 +95,7 @@ void Window::onPaint() {
   abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
   m_base.paint(m_gameData);
+  m_balls.paint();
 }
 
 void Window::onPaintUI() {
@@ -132,5 +134,6 @@ void Window::onDestroy() {
   abcg::glDeleteProgram(m_starsProgram);
   abcg::glDeleteProgram(m_objectsProgram);
 
+  m_balls.destroy();
   m_base.destroy();
 }

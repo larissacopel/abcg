@@ -19,9 +19,6 @@ void Base::create(GLuint program, glm::ivec2 mousePosition, glm::ivec2 m_viewpor
   m_translation = glm::vec2(0);
   m_velocity = glm::vec2(0);
 
-  fmt::print("mouse: {}, {}\n", mousePosition.x, mousePosition.y);
-  fmt::print("pos: {}\n", (mousePosition.x - (m_viewportSize.x / 4.0f)));
-
   // clang-format off
   std::array positions{
       glm::vec2{(mousePosition.x - (m_viewportSize.x / 4.0f))-20.5f, -100+3.5f}, glm::vec2{(mousePosition.x - (m_viewportSize.x / 4.0f))-20.5f, -100-3.5f},
