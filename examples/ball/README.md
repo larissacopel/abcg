@@ -3,9 +3,13 @@
 - **Larissa Copel Rothman, RA: 11201721367**
 - **Vinícius Teixeira Fantaccini, RA: 11087316**
 
+https://github.com/larissacopel/abcg/tree/main/examples/ball
+
 ## Descrição
 
 Esse projeto tem como objetivo implementar um jogo em que tem-se uma bolinha e uma base e intuito é não deixar a bolinha tocar na parte inferior da tela. A base pode ser movimentada com o mouse.
+
+O código desenvolvido pode ser encontrado em: https://github.com/larissacopel/abcg/tree/main/examples/ball.
 
 ---
 
@@ -111,3 +115,5 @@ A bola é criada como um polígno de 50 lados (visivelmente uma bola) com veloci
 ---
 
 ## Deployment
+
+Houverem problema com a criação da aplicação Web, mesmo tentando em dois sistemas operacionais diferentes. Por isso, realizamos a gravação da aplicação executando e disponibilizamos em https://drive.google.com/file/d/15f_aBi_0IosZ4GK3vQZaGQATR5mCOfbT/view?usp=share_link.
