@@ -117,3 +117,11 @@ A bola é criada como um polígno de 50 lados (visivelmente uma bola) com veloci
 ## Deployment
 
 Houverem problema com a criação da aplicação Web, mesmo tentando em dois sistemas operacionais diferentes. Por isso, realizamos a gravação da aplicação executando e disponibilizamos em https://drive.google.com/file/d/15f_aBi_0IosZ4GK3vQZaGQATR5mCOfbT/view?usp=share_link.
+
+## Próximos passos
+
+O projeto ainda tem pontos a ser trabalhados que serão implementados como uma evolução na próxima etapa do projeto:
+
+- gerar o impacto da bola com a base
+- exibir o game over ao bater com o chão
+
