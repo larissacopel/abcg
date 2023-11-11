@@ -64,50 +64,58 @@ void Balls::destroy() {
 }
 
 void Balls::update(const Base &base, float deltaTime) {
-    for (auto &ball : m_balls) {
-        
-        const float v = 3.0;
-
-        // Atualiza a posição da bola
-        ball.m_translation -= base.m_velocity * deltaTime * v;
-        ball.m_rotation = glm::wrapAngle(
-            ball.m_rotation + ball.m_angularVelocity * deltaTime);
-        ball.m_translation += ball.m_velocity * deltaTime * v;
-
-        const float ballSizeWithMargin = ball.m_scale / 3.5f;
-
-        // Wrap-around nas laterais e na parte superior
-        if (ball.m_translation.x - ballSizeWithMargin < -1.0f) {
-            ball.m_translation.x = -1.0f + ballSizeWithMargin; // Reposiciona para a borda esquerda
-            ball.m_velocity.x = -ball.m_velocity.x; // Inverte a direção X
-        }
-
-        if (ball.m_translation.x + ballSizeWithMargin > 1.0f) {
-            ball.m_translation.x = 1.0f - ballSizeWithMargin; // Reposiciona para a borda direita
-            ball.m_velocity.x = -ball.m_velocity.x; // Inverte a direção X
-        }
-
-        if (ball.m_translation.y + ballSizeWithMargin > 1.0f) {
-            ball.m_translation.y = 1.0f - ballSizeWithMargin; // Reposiciona para a borda superior
-            ball.m_velocity.y = -ball.m_velocity.y; // Rebate na parte superior
-        }
-
-        // Desaparecer na parte inferior com uma margem
-        if (ball.m_translation.y - ballSizeWithMargin < -1.0f) {
-            // Reseta a bola quando leva um ponto
-            ball.m_translation = glm::vec2(0.0f, 0.0f); 
-        }
-
-        // Colisão com a base (retângulo)
-        if (ball.m_translation.x - ballSizeWithMargin < base.m_translation.x &&
-            ball.m_translation.x + ballSizeWithMargin > base.m_translation.x &&
-            ball.m_translation.y - ballSizeWithMargin < base.m_translation.y &&
-            ball.m_translation.y + ballSizeWithMargin > base.m_translation.y &&
-            ball.m_velocity.y < 0.0f) {
-            ball.m_velocity.y = -ball.m_velocity.y;
-        }
-    }
+  for (auto &ball : m_balls) {
+    ball.m_translation -= base.m_velocity * deltaTime;
+    ball.m_rotation = glm::wrapAngle(
+        ball.m_rotation + ball.m_angularVelocity * deltaTime);
+    ball.m_translation += ball.m_velocity * deltaTime;
+  }
 }
+// void Balls::update(const Base &base, float deltaTime) {
+//     for (auto &ball : m_balls) {
+        
+//         const float v = 3.0;
+
+//         // Atualiza a posição da bola
+//         ball.m_translation -= base.m_velocity * deltaTime * v;
+//         ball.m_rotation = glm::wrapAngle(
+//             ball.m_rotation + ball.m_angularVelocity * deltaTime);
+//         ball.m_translation += ball.m_velocity * deltaTime * v;
+
+//         const float ballSizeWithMargin = ball.m_scale / 3.5f;
+
+//         // Wrap-around nas laterais e na parte superior
+//         if (ball.m_translation.x - ballSizeWithMargin < -1.0f) {
+//             ball.m_translation.x = -1.0f + ballSizeWithMargin; // Reposiciona para a borda esquerda
+//             ball.m_velocity.x = -ball.m_velocity.x; // Inverte a direção X
+//         }
+
+//         if (ball.m_translation.x + ballSizeWithMargin > 1.0f) {
+//             ball.m_translation.x = 1.0f - ballSizeWithMargin; // Reposiciona para a borda direita
+//             ball.m_velocity.x = -ball.m_velocity.x; // Inverte a direção X
+//         }
+
+//         if (ball.m_translation.y + ballSizeWithMargin > 1.0f) {
+//             ball.m_translation.y = 1.0f - ballSizeWithMargin; // Reposiciona para a borda superior
+//             ball.m_velocity.y = -ball.m_velocity.y; // Rebate na parte superior
+//         }
+
+//         // Desaparecer na parte inferior com uma margem
+//         if (ball.m_translation.y - ballSizeWithMargin < -1.0f) {
+//             // Reseta a bola quando leva um ponto
+//             ball.m_translation = glm::vec2(0.0f, 0.0f); 
+//         }
+
+//         // Colisão com a base (retângulo)
+//         if (ball.m_translation.x - ballSizeWithMargin < base.m_translation.x &&
+//             ball.m_translation.x + ballSizeWithMargin > base.m_translation.x &&
+//             ball.m_translation.y - ballSizeWithMargin < base.m_translation.y &&
+//             ball.m_translation.y + ballSizeWithMargin > base.m_translation.y &&
+//             ball.m_velocity.y < 0.0f) {
+//             ball.m_velocity.y = -ball.m_velocity.y;
+//         }
+//     }
+// }
 
 Balls::Ball Balls::makeBall(glm::vec2 translation,
                                             float scale) {

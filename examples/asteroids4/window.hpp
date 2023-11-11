@@ -5,8 +5,10 @@
 
 #include "abcgOpenGL.hpp"
 
-#include "base.hpp"
-#include "ball.hpp"
+#include "asteroids.hpp"
+#include "bullets.hpp"
+#include "ship.hpp"
+#include "starlayers.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -21,12 +23,15 @@ protected:
 private:
   glm::ivec2 m_viewportSize{};
 
+  GLuint m_starsProgram{};
   GLuint m_objectsProgram{};
 
   GameData m_gameData;
 
-  Base m_base;
-  Balls m_balls;
+  Asteroids m_asteroids;
+  Bullets m_bullets;
+  Ship m_ship;
+  StarLayers m_starLayers;
 
   abcg::Timer m_restartWaitTimer;
 
@@ -35,9 +40,8 @@ private:
   std::default_random_engine m_randomEngine;
 
   void restart();
-  void restartBall();
-  void checkGameOverCondition();
-  void checkCollisionsWalls();
+  void checkCollisions();
+  void checkWinCondition();
 };
 
 #endif
