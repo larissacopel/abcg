@@ -182,7 +182,8 @@ void Window::onPaint() {
 
   // Sun
   model = glm::mat4(1.0);
-  model = glm::scale(model, glm::vec3(0.2f));
+  model = glm::translate(model, glm::vec3(-2.7f, 0.0f, 0.0f));
+  model = glm::scale(model, glm::vec3(0.6f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 1.0f, 0.722f, 0.25f, 1.0f);
@@ -191,7 +192,7 @@ void Window::onPaint() {
 
   // Mercúrio
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+  model = glm::translate(model, glm::vec3(-0.7f, 0.0f, 0.0f));
   model = glm::scale(model, glm::vec3(0.1f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
@@ -201,8 +202,8 @@ void Window::onPaint() {
 
   // Vênus
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(0.3f, 0.0f, 0.0f));
+  model = glm::scale(model, glm::vec3(0.2f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.878f, 0.6f, 0.122f, 1.0f);
@@ -211,8 +212,8 @@ void Window::onPaint() {
 
   // Terra
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
+  model = glm::scale(model, glm::vec3(0.2f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.122f, 0.369f, 0.878f, 1.0f);
@@ -221,7 +222,7 @@ void Window::onPaint() {
 
   // Marte
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
+  model = glm::translate(model, glm::vec3(2.5f, 0.0f, 0.0f));
   model = glm::scale(model, glm::vec3(0.1f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
@@ -231,37 +232,37 @@ void Window::onPaint() {
 
   // Júpiter
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(3.5f, 0.0f, 0.0f));
+  model = glm::scale(model, glm::vec3(0.3f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(m_colorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+  abcg::glUniform4f(m_colorLocation, 0.78f, 0.616f, 0.451f, 1.0f);
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
                        nullptr);
                   
   // Saturno
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(6.0f, 0.0f, 0.0f));
+  model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
   model = glm::scale(model, glm::vec3(0.1f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(m_colorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+  abcg::glUniform4f(m_colorLocation, 0.878f, 0.729f, 0.514f, 1.0f);
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
                        nullptr);
 
   // Urano
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(7.0f, 0.0f, 0.0f));
+  model = glm::translate(model, glm::vec3(4.5f, 0.0f, 0.0f));
   model = glm::scale(model, glm::vec3(0.1f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(m_colorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+  abcg::glUniform4f(m_colorLocation, 0.435f, 0.596f, 0.89f, 1.0f);
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
                        nullptr);
 
   // Netuno
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(8.0f, 0.0f, 0.0f));
+  model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
   model = glm::scale(model, glm::vec3(0.1f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);

@@ -10,6 +10,6 @@ void main() {
   if (gl_FrontFacing) {
     outColor = fragColor;
   } else {
-    outColor = fragColor * 0.5;
+    outColor = fragColor * 0.6;
   }
 }

@@ -17,7 +17,7 @@ public:
   glm::mat4 const &getProjMatrix() const { return m_projMatrix; }
 
 private:
-  glm::vec3 m_eye{0.0f, 0.5f, 2.5f}; // Camera position
+  glm::vec3 m_eye{0.0f, 3.5f, 1.5f}; // Camera position
   glm::vec3 m_at{0.0f, 0.5f, 0.0f};  // Look-at point
   glm::vec3 m_up{0.0f, 1.0f, 0.0f};  // "up" direction
 
