@@ -157,16 +157,11 @@ A transformação de **escala** tem como objetivo alterar o tamanho (proporciona
 
 `model = glm::scale(model, glm::vec3(0.6f));`
 
+Além disso, cada esfera foi renderizada de um cor, exemplo:
+
+`abcg::glUniform4f(m_colorLocation, 1.0f, 0.722f, 0.25f, 1.0f);`
+
 ---
 
 ## Deployment
-
-Houverem problema com a criação da aplicação Web, mesmo tentando em dois sistemas operacionais diferentes. Por isso, realizamos a gravação da aplicação executando e disponibilizamos em https://drive.google.com/file/d/15f_aBi_0IosZ4GK3vQZaGQATR5mCOfbT/view?usp=share_link.
-
-## Próximos passos
-
-O projeto ainda tem pontos a ser trabalhados que serão implementados como uma evolução na próxima etapa do projeto:
-
-- gerar o impacto da bola com a base
-- exibir o game over ao bater com o chão
 
