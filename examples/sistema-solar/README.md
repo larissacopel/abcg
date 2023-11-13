@@ -9,7 +9,7 @@ https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar
 
 Esse projeto tem como objetivo implementar uma representação do sistema solar.
 
-O código desenvolvido pode ser encontrado em: https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar.
+O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar e a aplicação está disponível em https://larissacopel.github.io/abcg/examples/sistema-solar/code/index.html e a gravação da aplicação está disponível em https://drive.google.com/file/d/14Ggh12vc22Ds2jZeo0_RyIWsdEZCyEwY/view?usp=sharing.
 
 ---
 
