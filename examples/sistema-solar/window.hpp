@@ -4,7 +4,6 @@
 #include "abcgOpenGL.hpp"
 
 #include "camera.hpp"
-#include "ground.hpp"
 
 struct Vertex {
   glm::vec3 position;
@@ -39,8 +38,6 @@ private:
   float m_dollySpeed{};
   float m_truckSpeed{};
   float m_panSpeed{};
-
-  Ground m_ground;
 
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;

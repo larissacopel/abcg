@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 
+float m_earthRotation{0.0f};
+
 // Explicit specialization of std::hash for Vertex
 template <> struct std::hash<Vertex> {
   size_t operator()(Vertex const &vertex) const noexcept {
@@ -12,36 +14,43 @@ template <> struct std::hash<Vertex> {
 
 void Window::onEvent(SDL_Event const &event) {
   if (event.type == SDL_KEYDOWN) {
-    if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+      if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+          m_earthRotation -= 0.1f;
+      if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+          m_earthRotation += 0.1f;
+  }
+
+  if (event.type == SDL_KEYDOWN) {
+    if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_i)
       m_dollySpeed = 1.0f;
-    if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+    if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_k)
       m_dollySpeed = -1.0f;
-    if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+    if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_j)
       m_panSpeed = -1.0f;
-    if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+    if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_l)
       m_panSpeed = 1.0f;
-    if (event.key.keysym.sym == SDLK_q)
+    if (event.key.keysym.sym == SDLK_u)
       m_truckSpeed = -1.0f;
-    if (event.key.keysym.sym == SDLK_e)
+    if (event.key.keysym.sym == SDLK_o)
       m_truckSpeed = 1.0f;
   }
   if (event.type == SDL_KEYUP) {
-    if ((event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w) &&
+    if ((event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_i) &&
         m_dollySpeed > 0)
       m_dollySpeed = 0.0f;
-    if ((event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) &&
+    if ((event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_k) &&
         m_dollySpeed < 0)
       m_dollySpeed = 0.0f;
-    if ((event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a) &&
+    if ((event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_j) &&
         m_panSpeed < 0)
       m_panSpeed = 0.0f;
     if ((event.key.keysym.sym == SDLK_RIGHT ||
-         event.key.keysym.sym == SDLK_d) &&
+         event.key.keysym.sym == SDLK_l) &&
         m_panSpeed > 0)
       m_panSpeed = 0.0f;
-    if (event.key.keysym.sym == SDLK_q && m_truckSpeed < 0)
+    if (event.key.keysym.sym == SDLK_u && m_truckSpeed < 0)
       m_truckSpeed = 0.0f;
-    if (event.key.keysym.sym == SDLK_e && m_truckSpeed > 0)
+    if (event.key.keysym.sym == SDLK_k && m_truckSpeed > 0)
       m_truckSpeed = 0.0f;
   }
 }
@@ -60,8 +69,6 @@ void Window::onCreate() {
                                   .stage = abcg::ShaderStage::Vertex},
                                  {.source = assetsPath + "lookat.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
-
-  m_ground.create(m_program);
 
   // Get location of uniform variables
   m_viewMatrixLocation = abcg::glGetUniformLocation(m_program, "viewMatrix");
@@ -177,13 +184,21 @@ void Window::onPaint() {
 
   abcg::glBindVertexArray(m_VAO);
 
-  
+  // Escala Global
+
+  const float globalScale{1.0f};
+  const float globalDist(0.5f);
+
+  // Constantes da órbita da Terra - Base para tudo
+  const float semiMajorAxis = 2.0f * globalDist;  // Semi-eixo maior
+  const float semiMinorAxis = 2.0f * globalDist;  // Semi-eixo menor
+
   glm::mat4 model{1.0f};
 
   // Sun
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(-2.7f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.6f));
+  model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+  model = glm::scale(model, glm::vec3(0.06f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 1.0f, 0.722f, 0.25f, 1.0f);
@@ -191,9 +206,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Mercúrio
+
+  float mercuZ = 0.387f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float mercuX = 0.378f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(-0.7f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(mercuX, 0.0f, mercuZ));
+  model = glm::scale(model, glm::vec3(0.001f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.788f, 0.788f, 0.788f, 1.0f);
@@ -201,9 +220,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Vênus
+
+  float venusZ = 0.723f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float venusX = 0.716f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(0.3f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.2f));
+  model = glm::translate(model, glm::vec3(venusX, 0.0f, venusZ));
+  model = glm::scale(model, glm::vec3(0.02f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.878f, 0.6f, 0.122f, 1.0f);
@@ -211,9 +234,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Terra
+
+  float earthZ = semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float earthX = semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(1.5f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.2f));
+  model = glm::translate(model, glm::vec3(earthX, 0.0f, earthZ));
+  model = glm::scale(model, glm::vec3(0.02f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.122f, 0.369f, 0.878f, 1.0f);
@@ -221,9 +248,14 @@ void Window::onPaint() {
                        nullptr);
 
   // Marte
+
+  float marsZ = 1.52f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float marsX = 1.38f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(2.5f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(marsX, 0.0f, marsZ));
+  model = glm::scale(model, glm::vec3(0.01f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.839f, 0.251f, 0.0f, 1.0f);
@@ -231,9 +263,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Júpiter
+
+  float jupiterZ = 5.20f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float jupiterX = 4.95f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(3.5f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.3f));
+  model = glm::translate(model, glm::vec3(jupiterX, 0.0f, jupiterZ));
+  model = glm::scale(model, glm::vec3(0.22f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.78f, 0.616f, 0.451f, 1.0f);
@@ -241,9 +277,13 @@ void Window::onPaint() {
                        nullptr);
                   
   // Saturno
+
+  float saturnZ = 9.58f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float saturnX = 9.00f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(4.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(saturnX, 0.0f, saturnZ));
+  model = glm::scale(model, glm::vec3(0.18f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.878f, 0.729f, 0.514f, 1.0f);
@@ -251,9 +291,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Urano
+
+  float uranusZ = 19.22f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float uranusX = 18.61f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(4.5f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(uranusX, 0.0f, uranusZ));
+  model = glm::scale(model, glm::vec3(0.08f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.435f, 0.596f, 0.89f, 1.0f);
@@ -261,9 +305,13 @@ void Window::onPaint() {
                        nullptr);
 
   // Netuno
+
+  float neptuZ = 19.22f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float neptuX = 18.61f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+
   model = glm::mat4(1.0);
-  model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.1f));
+  model = glm::translate(model, glm::vec3(neptuX, 0.0f, neptuZ));
+  model = glm::scale(model, glm::vec3(0.16f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -287,8 +335,6 @@ void Window::onResize(glm::ivec2 const &size) {
 }
 
 void Window::onDestroy() {
-  m_ground.destroy();
-
   abcg::glDeleteProgram(m_program);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);
