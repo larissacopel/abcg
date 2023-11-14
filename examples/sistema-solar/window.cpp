@@ -3,7 +3,6 @@
 #include <unordered_map>
 
 float m_earthRotation{0.0f};
-
 // Explicit specialization of std::hash for Vertex
 template <> struct std::hash<Vertex> {
   size_t operator()(Vertex const &vertex) const noexcept {
@@ -13,12 +12,13 @@ template <> struct std::hash<Vertex> {
 };
 
 void Window::onEvent(SDL_Event const &event) {
+
   if (event.type == SDL_KEYDOWN) {
-      if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
-          m_earthRotation -= 0.1f;
-      if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
-          m_earthRotation += 0.1f;
-  }
+        if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_LEFT)
+            m_earthRotation -= 0.05f;
+        if (event.key.keysym.sym == SDLK_d || event.key.keysym.sym == SDLK_RIGHT)
+            m_earthRotation += 0.05f;
+    }
 
   if (event.type == SDL_KEYDOWN) {
     if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_i)
@@ -186,33 +186,36 @@ void Window::onPaint() {
 
   // Escala Global
 
-  const float globalScale{1.0f};
-  const float globalDist(0.5f);
+  const float globalScale{0.4f};
+  const float globalDist{0.2f};
 
   // Constantes da órbita da Terra - Base para tudo
-  const float semiMajorAxis = 2.0f * globalDist;  // Semi-eixo maior
-  const float semiMinorAxis = 2.0f * globalDist;  // Semi-eixo menor
+  const float semiMajorAxis = 0.2f + globalDist;  // Semi-eixo maior
+  const float semiMinorAxis = 0.2f + globalDist;  // Semi-eixo menor
+
+  // Posição da fonte de luz
+  // abcg::glUniform3f(m_lightDirLocation, 0.0f, 0.0f, 0.0f);
 
   glm::mat4 model{1.0f};
 
   // Sun
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-  model = glm::scale(model, glm::vec3(0.06f * globalScale));
+  model = glm::scale(model, glm::vec3(3.0f * globalScale / 10.0f));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
-  abcg::glUniform4f(m_colorLocation, 1.0f, 0.722f, 0.25f, 1.0f);
+  abcg::glUniform4f(m_colorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT,
                        nullptr);
 
   // Mercúrio
 
-  float mercuZ = 0.387f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float mercuX = 0.378f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float mercuZ = semiMajorAxis * cos(m_earthRotation * (365.0f/88.0f)); // Calcula a posição x com base no ângulo
+  float mercuX = semiMinorAxis * sin(m_earthRotation * (365.0f/88.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(mercuX, 0.0f, mercuZ));
-  model = glm::scale(model, glm::vec3(0.001f * globalScale));
+  model = glm::scale(model, glm::vec3(0.016f * globalScale));
 
   abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
   abcg::glUniform4f(m_colorLocation, 0.788f, 0.788f, 0.788f, 1.0f);
@@ -221,8 +224,8 @@ void Window::onPaint() {
 
   // Vênus
 
-  float venusZ = 0.723f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float venusX = 0.716f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float venusZ = 2 * semiMajorAxis * cos(m_earthRotation * (365.0f/255.0f)); // Calcula a posição x com base no ângulo
+  float venusX = 2 * semiMinorAxis * sin(m_earthRotation * (365.0f/225.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(venusX, 0.0f, venusZ));
@@ -235,8 +238,8 @@ void Window::onPaint() {
 
   // Terra
 
-  float earthZ = semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float earthX = semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float earthZ = 3 * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
+  float earthX = 3 * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(earthX, 0.0f, earthZ));
@@ -249,8 +252,8 @@ void Window::onPaint() {
 
   // Marte
 
-  float marsZ = 1.52f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float marsX = 1.38f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float marsZ = 4 * semiMajorAxis * cos(m_earthRotation * (365.0f/687.0f)); // Calcula a posição x com base no ângulo
+  float marsX = 4 * semiMinorAxis * sin(m_earthRotation * (365.0f/687.0f)); // Calcula a posição y com base no ângulo
 
 
   model = glm::mat4(1.0);
@@ -264,8 +267,8 @@ void Window::onPaint() {
 
   // Júpiter
 
-  float jupiterZ = 5.20f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float jupiterX = 4.95f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float jupiterZ = 5 * semiMajorAxis * cos(m_earthRotation * (365.0f/4332.0f)); // Calcula a posição x com base no ângulo
+  float jupiterX = 5 * semiMinorAxis * sin(m_earthRotation * (365.0f/4332.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(jupiterX, 0.0f, jupiterZ));
@@ -278,8 +281,8 @@ void Window::onPaint() {
                   
   // Saturno
 
-  float saturnZ = 9.58f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float saturnX = 9.00f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float saturnZ = 6 * semiMajorAxis * cos(m_earthRotation * (365.0f/10760.0f)); // Calcula a posição x com base no ângulo
+  float saturnX = 6 * semiMinorAxis * sin(m_earthRotation * (365.0f/10760.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(saturnX, 0.0f, saturnZ));
@@ -292,8 +295,8 @@ void Window::onPaint() {
 
   // Urano
 
-  float uranusZ = 19.22f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float uranusX = 18.61f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float uranusZ = 7 * semiMajorAxis * cos(m_earthRotation * (365.0f/30681.0f)); // Calcula a posição x com base no ângulo
+  float uranusX = 7 * semiMinorAxis * sin(m_earthRotation * (365.0f/30681.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(uranusX, 0.0f, uranusZ));
@@ -306,8 +309,8 @@ void Window::onPaint() {
 
   // Netuno
 
-  float neptuZ = 19.22f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-  float neptuX = 18.61f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+  float neptuZ = 8 * semiMajorAxis * cos(m_earthRotation * (365.0f/60190.0f)); // Calcula a posição x com base no ângulo
+  float neptuX = 8 * semiMinorAxis * sin(m_earthRotation * (365.0f/60190.0f)); // Calcula a posição y com base no ângulo
 
   model = glm::mat4(1.0);
   model = glm::translate(model, glm::vec3(neptuX, 0.0f, neptuZ));
@@ -344,6 +347,19 @@ void Window::onDestroy() {
 void Window::onUpdate() {
   auto const deltaTime{gsl::narrow_cast<float>(getDeltaTime())};
 
+  // if (m_input.isCursorGrabbed()) {
+  //   // Calcula a diferença entre a posição atual do mouse e a anterior
+  //   auto [x, y] = m_input.getMousePosition();
+  //   glm::vec2 delta = glm::vec2{x, y} - m_lastMousePosition;
+
+  //   // Atualiza a câmera baseada na diferença
+  //   m_camera.mouseUpdate(delta);
+
+  //   // Move o mouse de volta ao centro da tela
+  //   m_input.setMousePosition({m_windowSize.x / 2, m_windowSize.y / 2});
+  //   m_lastMousePosition = {m_windowSize.x / 2, m_windowSize.y / 2};
+  // }
+  
   // Update LookAt camera
   m_camera.dolly(m_dollySpeed * deltaTime);
   m_camera.truck(m_truckSpeed * deltaTime);

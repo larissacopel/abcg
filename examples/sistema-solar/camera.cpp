@@ -48,3 +48,24 @@ void Camera::pan(float speed) {
 
   computeViewMatrix();
 }
+
+float m_yaw{0.0f};
+float m_pitch{0.0f};
+
+void Camera::lookAround(float deltaX, float deltaY, float sensitivity) {
+    // Update yaw (horizontal movement)
+    m_yaw += deltaX * sensitivity;
+
+    // Limit looking up and down to 89 degrees to avoid flipping
+    m_pitch += deltaY * sensitivity;
+    m_pitch = glm::clamp(m_pitch, -89.0f, 89.0f);
+
+    // Update direction vector
+    glm::vec3 front;
+    front.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    front.y = sin(glm::radians(m_pitch));
+    front.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    m_at = m_eye + glm::normalize(front);
+
+    computeViewMatrix();
+}
