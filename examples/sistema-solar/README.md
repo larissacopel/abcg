@@ -9,7 +9,7 @@ https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar
 
 Esse projeto tem como objetivo implementar uma representação do sistema solar.
 
-O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar e a aplicação está disponível em https://larissacopel.github.io/abcg/examples/sistema-solar/code/index.html e a gravação da aplicação está disponível em https://drive.google.com/file/d/14Ggh12vc22Ds2jZeo0_RyIWsdEZCyEwY/view?usp=sharing.
+O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/sistema-solar e a aplicação compilada está disponível em `/public/sistema-solar/`.
 
 ---
 
@@ -54,12 +54,12 @@ Em sequência, foi necessário realizar a criação das 9 esferas que compõem o
 ```
 // Mercúrio
 
-float mercuZ = 0.387f * semiMajorAxis * cos(m_earthRotation); // Calcula a posição x com base no ângulo
-float mercuX = 0.378f * semiMinorAxis * sin(m_earthRotation); // Calcula a posição y com base no ângulo
+float mercuZ = semiMajorAxis * cos(m_earthRotation * (365.0f/88.0f)); // Calcula a posição x com base no ângulo
+float mercuX = semiMinorAxis * sin(m_earthRotation * (365.0f/88.0f)); // Calcula a posição y com base no ângulo
 
 model = glm::mat4(1.0);
 model = glm::translate(model, glm::vec3(mercuX, 0.0f, mercuZ));
-model = glm::scale(model, glm::vec3(0.001f * globalScale));
+model = glm::scale(model, glm::vec3(0.016f * globalScale));
 
 abcg::glUniformMatrix4fv(m_modelMatrixLocation, 1, GL_FALSE, &model[0][0]);
 abcg::glUniform4f(m_colorLocation, 0.788f, 0.788f, 0.788f, 1.0f);
@@ -74,7 +74,7 @@ A transformação de **translação** é responsável por alterar a posição do
 
 A transformação de **escala** tem como objetivo alterar o tamanho (proporcionalmente) do elemento. Ela é utilizada para deixar cada elemento em um tamanho, simulando o cenário real.
 
-`model = glm::scale(model, glm::vec3(0.001f * globalScale));`
+`model = glm::scale(model, glm::vec3(0.016f * globalScale));`
 
 Além disso, cada esfera foi renderizada de um cor, exemplo:
 
