@@ -1,15 +1,16 @@
 #ifndef WINDOW_HPP_
 #define WINDOW_HPP_
 
+#include <random>
 #include "abcgOpenGL.hpp"
-
 #include "camera.hpp"
+#include "model.hpp"
 
-struct Vertex {
-  glm::vec3 position;
+// struct Vertex {
+//   glm::vec3 position;
 
-  friend bool operator==(Vertex const &, Vertex const &) = default;
-};
+//   friend bool operator==(Vertex const &, Vertex const &) = default;
+// };
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -22,12 +23,33 @@ protected:
   void onUpdate() override;
 
 private:
+
+  std::default_random_engine m_randomEngine;
+  
   glm::ivec2 m_viewportSize{};
+
+  Model m_model;
+
+  struct Star {
+    glm::vec3 m_position{};
+    glm::vec3 m_rotationAxis{};
+  };
+
+  std::array<Star, 500> m_stars;
+
+  float m_angle{};
+
+  glm::mat4 m_viewMatrix{1.0f};
+  glm::mat4 m_projMatrix{1.0f};
+  float m_FOV{30.0f};
+
+  void randomizeStar(Star &star);
 
   GLuint m_VAO{};
   GLuint m_VBO{};
   GLuint m_EBO{};
   GLuint m_program{};
+  GLuint m_program_stars{};
 
   GLint m_viewMatrixLocation{};
   GLint m_projMatrixLocation{};
