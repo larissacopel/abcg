@@ -48,8 +48,8 @@ void Window::onCreate() {
   }
 
   // Load default model
-  loadModel(assetsPath + "roman_lamp.obj");
-  m_mappingMode = 3; // "From mesh" option
+  loadModel(assetsPath + "esphere.obj");
+  m_mappingMode = 2;
 
   // Initial trackball spin
   m_trackBallModel.setAxis(glm::normalize(glm::vec3(1, 1, 1)));

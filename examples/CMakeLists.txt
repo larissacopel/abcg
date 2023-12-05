@@ -1,1 +1,1 @@
-add_subdirectory(sistema-solar)
+add_subdirectory(sun)

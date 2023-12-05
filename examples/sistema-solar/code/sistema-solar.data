@@ -462,7 +462,7 @@ f 114//114 113//113 112//112
 f 114//114 98//98 113//113 
 # 224 faces
 
-#version 300 es
+#version 410 core
 
 precision mediump float;
 
@@ -476,7 +476,7 @@ void main() {
   } else {
     outColor = fragColor * 0.5;
   }
-}#version 300 es
+}#version 410 core
 
 layout(location = 0) in vec3 inPosition;
 
