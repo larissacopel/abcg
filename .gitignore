@@ -30,3 +30,18 @@ public/*.wasm
 
 # Git
 *.stackdump
+examples/sun/assets/shaders/texture.vert
+examples/sun/assets/shaders/texture.frag
+examples/sun/assets/shaders/phong.vert
+examples/sun/assets/shaders/phong.frag
+examples/sun/assets/shaders/normalmapping.vert
+examples/sun/assets/shaders/normalmapping.frag
+examples/sun/assets/shaders/normal.vert
+examples/sun/assets/shaders/normal.frag
+examples/sun/assets/shaders/gouraud.vert
+examples/sun/assets/shaders/gouraud.frag
+examples/sun/assets/shaders/depth.vert
+examples/sun/assets/shaders/depth.frag
+examples/sun/assets/shaders/blinnphong.vert
+examples/sun/assets/shaders/blinnphong.frag
+examples/sun/assets/maps/sun-2.jpg
