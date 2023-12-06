@@ -5,6 +5,8 @@
 #include "model.hpp"
 #include "trackball.hpp"
 
+
+
 class Window : public abcg::OpenGLWindow {
 protected:
   void onEvent(SDL_Event const &event) override;
@@ -31,24 +33,24 @@ private:
 
   // Shaders
   std::vector<char const *> m_shaderNames{
-      "normalmapping", "texture", "blinnphong", "phong",
+      "texture", "normalmapping", "blinnphong", "phong",
       "gouraud",       "normal",  "depth"};
   std::vector<GLuint> m_programs;
   int m_currentProgramIndex{};
 
   // Mapping mode
   // 0: triplanar; 1: cylindrical; 2: spherical; 3: from mesh
-  int m_mappingMode{};
+  int m_mappingMode{1};
 
   // Light and material properties
   glm::vec4 m_lightDir{-1.0f, -1.0f, -1.0f, 0.0f};
   glm::vec4 m_Ia{1.0f};
   glm::vec4 m_Id{1.0f};
   glm::vec4 m_Is{1.0f};
-  glm::vec4 m_Ka{};
-  glm::vec4 m_Kd{};
-  glm::vec4 m_Ks{};
-  float m_shininess{};
+  glm::vec4 m_Ka{1.0f};
+  glm::vec4 m_Kd{1.0f};
+  glm::vec4 m_Ks{1.0f};
+  float m_shininess{500.0f};
 
   void loadModel(std::string_view path);
 };
