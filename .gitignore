@@ -30,3 +30,4 @@ public/*.wasm
 
 # Git
 *.stackdump
+examples/sun/assets/maps/sun-2.jpg
