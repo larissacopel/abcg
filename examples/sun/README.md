@@ -89,3 +89,10 @@ m_mappingMode = 2;
 
 Para a adição da texturização, foi utilizado o spherical mapping.
 
+Abaixo temos algumas renderizações a serem unidas com a atividade 2
+
+# Marte
+!['marte'](assets/maps/marte.png "Marte")
+
+# Mercúrio
+!['mercurio'](assets/maps/mercurio.png "Mercurio")
