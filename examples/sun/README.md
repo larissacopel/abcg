@@ -9,7 +9,7 @@ https://github.com/larissacopel/abcg/tree/main/examples/sun
 
 Esse projeto tem como objetivo tratar o sistema solar agora na visão de textura e iluminação
 
-O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/su e a aplicação compilada está disponível em `/public/sun/`.
+O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/sun e a aplicação compilada está disponível em `/public/sun/`.
 
 ---
 
@@ -74,17 +74,17 @@ A criação dos programas e do modelo é feita também no window.cpp ao criar a 
 
 ```
 // Create programs
-  for (auto const &name : m_shaderNames) {
+for (auto const &name : m_shaderNames) {
     auto const path{assetsPath + "shaders/" + name};
     auto const program{abcg::createOpenGLProgram(
         {{.source = path + ".vert", .stage = abcg::ShaderStage::Vertex},
-         {.source = path + ".frag", .stage = abcg::ShaderStage::Fragment}})};
+            {.source = path + ".frag", .stage = abcg::ShaderStage::Fragment}})};
     m_programs.push_back(program);
-  }
+}
 
-  // Load default model
-  loadModel(assetsPath + "esphere.obj");
-  m_mappingMode = 2;
+// Load default model
+loadModel(assetsPath + "esphere.obj");
+m_mappingMode = 2;
 ```
 
 Para a adição da texturização, foi utilizado o spherical mapping.
