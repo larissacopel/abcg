@@ -9,7 +9,7 @@ https://github.com/larissacopel/abcg/tree/main/examples/sun
 
 Esse projeto tem como objetivo tratar o sistema solar agora na visão de textura e iluminação
 
-O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/su e a aplicação compilada está disponível em `/public/sun/`.
+O código desenvolvido pode ser encontrado em https://github.com/larissacopel/abcg/tree/main/examples/sun e a aplicação compilada está disponível em `/public/sun/`.
 
 ---
 
@@ -59,4 +59,33 @@ O desenvolvimento foi baseado no caso `TrackBall Virtual` e o primeiro ponto a s
 
 Em sequência, criar a textura do sistema solar, começando pelo sol, instanciado no arquivo `window.cpp`: 
 
-Com o mouse é possível alterar a posição da câmera. Girando o planeta e dando zoom in e zoom out
+Com o mouse é possível alterar a posição da câmera. Girando o planeta e dando zoom in e zoom out.
+
+A atualização da esfera de acordo com o movimento do mouse é feito no arquivo window.cpp:
+
+```
+if (event.type == SDL_MOUSEMOTION) {
+    m_trackBallModel.mouseMove(mousePosition);
+    m_trackBallLight.mouseMove(mousePosition);
+}
+```
+
+A criação dos programas e do modelo é feita também no window.cpp ao criar a janela:
+
+```
+// Create programs
+for (auto const &name : m_shaderNames) {
+    auto const path{assetsPath + "shaders/" + name};
+    auto const program{abcg::createOpenGLProgram(
+        {{.source = path + ".vert", .stage = abcg::ShaderStage::Vertex},
+            {.source = path + ".frag", .stage = abcg::ShaderStage::Fragment}})};
+    m_programs.push_back(program);
+}
+
+// Load default model
+loadModel(assetsPath + "esphere.obj");
+m_mappingMode = 2;
+```
+
+Para a adição da texturização, foi utilizado o spherical mapping.
+
